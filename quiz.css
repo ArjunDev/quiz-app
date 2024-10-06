@@ -4,7 +4,7 @@
   padding: 0;
 }
 body {
-  background-color: rgb(78, 78, 78);
+  background-color: rgb(14, 13, 13);
   display: flex;
   justify-content: center;
   align-items: center;
@@ -20,17 +20,20 @@ body {
   background-color: rgba(113, 3, 106, 0.6);
   border-radius: 1rem;
 }
-.question {
-  color: rgba(255, 255, 255, 0.9);
-  font-weight: bold;
+
+h1{
+  color: rgba(255, 255, 255, 0.8);
+  background-color: green;
   padding: 1rem;
+  margin-bottom: 2rem;
 }
-.category{
-  color: black;
-  font-weight: bold;
+.question{
+  color: rgba(255, 255, 255, 0.75);
+  margin: 1rem;
+  padding: 0.25rem;
 }
 .category span{
-  color: rgba(255, 255, 255, 0.87);
+  color: black;
   font-weight: bold;
   padding: 5px;
   border-radius: 5px;
@@ -52,6 +55,7 @@ body {
   width: 100%;
   margin: 0.75rem;
   padding: 0.75rem;
+  font-size: large;
   border: none;
   border-radius: 0.5rem;
   cursor: pointer;
@@ -66,6 +70,13 @@ body {
 .choice.wrong {
   background-color: rgb(245, 51, 51);
 }
+.bottom-div{
+  margin-bottom: 2rem;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+}
 .next-btn{
   padding: 0.5rem;
   width: 5rem;
@@ -76,19 +87,46 @@ body {
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.9);
 }
-.view-answer-btn{
-  display: none;
+.view-answer-btn,
+.finish-quiz-btn {
+  display: none; /* btn is hidden. will be made visble in JS */
   padding: 0.5rem;
   width: 8rem;
   height: 2rem;
   border: none;
+  margin-left: 1rem;
   font-size: medium;
+  border-radius: 1rem;
+  cursor: pointer;
+  background-color: rgba(255, 255, 255, 0.9);
+}
+#click-me-btn{
+  padding: 0.5rem;
+  width: 6rem;
+  height: 2rem;
+  border: none;
+  font-size: medium;
+  font-weight: 600;
   border-radius: 1rem;
   margin-left: 1rem;
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.9);
 }
+.finish-msg{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 1rem;
+  width: 20rem;
+  height: 5rem;
+  color: rgba(255, 255, 255, 0.9);
+}
 .view-answer-btn:active, 
-.next-btn:active{
+.next-btn:active,
+.finish-quiz-btn:active,
+#click-me-btn:active {
   transform: scale(0.9);
 }
+
+
+
