@@ -1,4 +1,3 @@
-//https://opentdb.com/api.php?amount=1&category=9&type=multiple
 
 const container = document.querySelector('.container');
 const question = document.querySelector('.question');
@@ -7,11 +6,12 @@ const choiceContainer = document.querySelector('.choice-container');
 const nextBtn = document.querySelector('.next-btn');
 const viewAnswerBtn = document.querySelector('.view-answer-btn');
 const finishQuizBtn = document.querySelector('.finish-quiz-btn');
+const viewAnswer = document.querySelector('.view-answer');
 
 handleQuestionData();
 
 finishQuizBtn.addEventListener('click', () => {
-  container.innerHTML = `<h1> Congrats! you finished the quiz.</h1>
+  container.innerHTML = `<h1> Congrats!</br> you finished the quiz.</h1>
   <h3 class="finish-msg">Wanna Play again? <button id="click-me-btn">Click me</botton></h3>`;
   playAgain();
 });
@@ -43,17 +43,16 @@ async function handleQuestionData(){
       const categoryData = questionsArray[currentIndex].category;
       const correctAnswer = questionsArray[currentIndex].correct_answer;
       const incorrectAnswers = questionsArray[currentIndex].incorrect_answers;//this is in nested array format
-      //console.log(incorrectAnswers);
+
       incorrectAnswers.splice(Math.floor(Math.random() *(incorrectAnswers.length + 1)), 0, correctAnswer);
       // to place correct answer in random position of any array 
       //console.log(incorrectAnswers);
 
-      question.innerHTML = `<p class="question">${questionData}</p>`;
-      category.innerHTML = `<p class="category"><span>Category:</span> <span>${categoryData}</span></p>`
+      question.innerHTML = `${questionData}`;
+      category.innerHTML = `<span>Category:</span> <span>${categoryData}</span>`
       choiceContainer.innerHTML = `${incorrectAnswers.map((item) =>`
       <li class="choice"> ${item}</li>`).join(" ")}`;
-      viewAnswerBtn.innerText = "View Answer";
-      nextBtn.innerText = "Next";
+      //nextBtn.innerText = "Next";
     
       checkCorrectAnswer(correctAnswer);
       currentIndex++;
@@ -63,29 +62,9 @@ async function handleQuestionData(){
   nextBtn.addEventListener('click', displayQuestion);
   nextBtn.addEventListener('click', () => {
     viewAnswerBtn.style.display = 'none';//to hide viewbtn when clicked on next.
+    viewAnswer.style.display = 'none';
   });
 }
-
-async function getQuestions(){
-  try{
-    const response = await fetch("https://opentdb.com/api.php?amount=10");
-    const data = await response.json();
-    //const questionData = data.results[0];
-    const questionData = data.results;
-    //console.log(questionData);
-    //console.log(questionData.length);
-    //displayFirstQuestion(questionData);
-    
-    if(!response.ok){
-      throw new Error("Could not find resource!");
-    }
-    return questionData;
-  }
-  catch(err){
-    console.error(err);
-  }
-}
-
 function checkCorrectAnswer(correctAnswer){
   const choices = document.querySelectorAll('.choice');
   //console.log(choices);
@@ -109,6 +88,32 @@ function checkCorrectAnswer(correctAnswer){
           otherchoices.style.opacity = '0.5'; // Optionally, make them visually appear disabled
         }
       });
+      viewAnswerBtn.addEventListener('click', ()=>{
+        viewAnswer.innerHTML = `${correctAnswer}`;
+        viewAnswer.style.display = 'block';
+      });
     });
   });
 }
+
+
+async function getQuestions(){
+  try{
+    const response = await fetch("https://opentdb.com/api.php?amount=10");
+    const data = await response.json();
+    //const questionData = data.results[0];
+    const questionData = data.results;
+    //console.log(questionData);
+    //console.log(questionData.length);
+    //displayFirstQuestion(questionData);
+    
+    if(!response.ok){
+      throw new Error("Could not find resource!");
+    }
+    return questionData;
+  }
+  catch(err){
+    console.error(err);
+  }
+}
+
