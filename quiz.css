@@ -30,6 +30,13 @@ h1{
   margin-bottom: 2rem;
   text-align: center;
 }
+span{
+  color: rgba(255, 255, 255, 0.75);
+  font-weight: bold;
+  border-radius: 5px;
+  padding: 0px 10px;
+  background-color: rgba(140, 0, 255, 0.75);
+}
 .question{
   color: rgba(255, 255, 255, 0.75);
   margin: 0.5rem;
@@ -38,7 +45,7 @@ h1{
 }
 .category span{
   color: black;
-  font-size: small;
+  font-size: medium;
   font-weight: bold;
   padding: 5px;
   border-radius: 5px;
@@ -86,12 +93,28 @@ h1{
   border-radius: 0.25rem;
   background-color: rgba(2, 182, 26, 0.75);
 }
+.disabledNextBtn-warning{
+  display: none;
+  color: rgb(255, 0, 0);
+  font-size: medium;
+  font-weight: bold;
+  padding: 0.25rem;
+  border-radius: 0.25rem;
+  
+}
 .bottom-div{
-  margin-bottom: 2rem;
+  margin-bottom: 1rem;
   display: flex;
   width: 100%;
   justify-content: center;
   align-items: center;
+}
+.next-btn.disabled{
+  background-color: rgba(140, 0, 255, 0.75);
+  opacity: 0.5;
+}
+.next-btn.disabled:active{
+  transform: scale(1);
 }
 .next-btn{
   color: rgba(0, 0, 0, 0.9);
@@ -104,6 +127,7 @@ h1{
   border-radius: 1rem;
   cursor: pointer;
   background-color: rgba(140, 0, 255, 0.75);
+  transition: background-color 0.3s ease;
 }
 .view-answer-btn,
 .finish-quiz-btn {

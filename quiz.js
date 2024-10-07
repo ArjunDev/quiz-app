@@ -1,4 +1,3 @@
-
 const container = document.querySelector('.container');
 const question = document.querySelector('.question');
 const category = document.querySelector('.category');
@@ -7,113 +6,113 @@ const nextBtn = document.querySelector('.next-btn');
 const viewAnswerBtn = document.querySelector('.view-answer-btn');
 const finishQuizBtn = document.querySelector('.finish-quiz-btn');
 const viewAnswer = document.querySelector('.view-answer');
+const disabledNextBtnWarning = document.querySelector('.disabledNextBtn-warning');
+
+let rightAnswerCounter = [];
+let currentIndex = 0;
 
 handleQuestionData();
 
 finishQuizBtn.addEventListener('click', () => {
-  container.innerHTML = `<h1> Congrats!</br> you finished the quiz.</h1>
-  <h3 class="finish-msg">Wanna Play again? <button id="click-me-btn">Click me</botton></h3>`;
+  container.innerHTML = `<h1> Congrats!</br> you answered <span>${rightAnswerCounter.length}/10</span> correctly.</h1>
+  <h3 class="finish-msg">Wanna Play again? <button id="click-me-btn">Click me</button></h3>`;
   playAgain();
 });
 
-function playAgain(){
+function playAgain() {
   const clickMeBtn = document.getElementById('click-me-btn');
   clickMeBtn.addEventListener('click', () => {
-    console.log("hi");
     location.reload();
   });
 }
 
-async function handleQuestionData(){
+async function handleQuestionData() {
   const questionsArray = await getQuestions();
-  let currentIndex = 0;
-  //let wrongAnswers = 0;
-  //let rightAnswers = 0;
-
   displayQuestion();
 
   function displayQuestion() {
-    if (currentIndex >= questionsArray.length) {
-      //alert("Quiz is over");
+    if (currentIndex === questionsArray.length) {
       nextBtn.style.display = 'none';
       finishQuizBtn.style.display = 'inline-block';
-
     } else {
       const questionData = questionsArray[currentIndex].question;
       const categoryData = questionsArray[currentIndex].category;
       const correctAnswer = questionsArray[currentIndex].correct_answer;
-      const incorrectAnswers = questionsArray[currentIndex].incorrect_answers;//this is in nested array format
+      const incorrectAnswers = [...questionsArray[currentIndex].incorrect_answers]; // clone the array
+      incorrectAnswers.splice(Math.floor(Math.random() * (incorrectAnswers.length + 1)), 0, correctAnswer);
 
-      incorrectAnswers.splice(Math.floor(Math.random() *(incorrectAnswers.length + 1)), 0, correctAnswer);
-      // to place correct answer in random position of any array 
-      //console.log(incorrectAnswers);
-
+      // Display the question and category
       question.innerHTML = `${questionData}`;
-      category.innerHTML = `<span>Category:</span> <span>${categoryData}</span>`
-      choiceContainer.innerHTML = `${incorrectAnswers.map((item) =>`
-      <li class="choice"> ${item}</li>`).join(" ")}`;
-      //nextBtn.innerText = "Next";
-    
+      category.innerHTML = `<span>Category:</span> <span>${categoryData}</span>`;
+      choiceContainer.innerHTML = `${incorrectAnswers.map((item) => `<li class="choice">${item}</li>`).join(" ")}`;
+      
+      // Reset the button to disabled after loading a new question
+      nextBtn.classList.add('disabled');
+      disabledNextBtnWarning.style.display = 'none'; // Hide warning initially
+
       checkCorrectAnswer(correctAnswer);
-      currentIndex++;
     }
   }
 
-  nextBtn.addEventListener('click', displayQuestion);
-  nextBtn.addEventListener('click', () => {
-    viewAnswerBtn.style.display = 'none';//to hide viewbtn when clicked on next.
-    viewAnswer.style.display = 'none';
-  });
-}
-function checkCorrectAnswer(correctAnswer){
-  const choices = document.querySelectorAll('.choice');
-  //console.log(choices);
-  choices.forEach((item, index) => {
-    item.addEventListener('click', () => {
-      //console.log(item.innerText);
-      if(item.innerText == correctAnswer){
-        console.log("Answer is correct")
-        item.classList.add('correct');
-        //rightAnswers++;
-      }else{
-        console.log("Wrong answer")
-        item.classList.add('wrong');
-        viewAnswerBtn.style.display = 'inline-block';
-        //wrongAnswers++;
-      }
-      // Disable clicks for the rest of the <li> elements
-      choices.forEach((otherchoices, otherIndex) => {
-        if (index !== otherIndex) {
-          otherchoices.style.pointerEvents = 'none'; // Disable click
-          otherchoices.style.opacity = '0.5'; // Optionally, make them visually appear disabled
+  function checkCorrectAnswer(correctAnswer) {
+    const choices = document.querySelectorAll('.choice');
+    choices.forEach((item, index) => {
+      item.addEventListener('click', () => {
+        // Mark correct and wrong answers
+        if (item.innerText === correctAnswer) {
+          item.classList.add('correct');
+          rightAnswerCounter.push("1 point"); // Track the correct answers
+        } else {
+          item.classList.add('wrong');
+          viewAnswerBtn.style.display = 'block';
         }
-      });
-      viewAnswerBtn.addEventListener('click', ()=>{
-        viewAnswer.innerHTML = `${correctAnswer}`;
-        viewAnswer.style.display = 'block';
+
+        // Disable clicks for the other choices
+        choices.forEach((otherChoice, otherIndex) => {
+          if (index !== otherIndex) {
+            otherChoice.style.pointerEvents = 'none'; // Disable click
+            otherChoice.style.opacity = '0.5'; // Visually appear disabled
+          }
+        });
+
+        viewAnswerBtn.addEventListener('click', () => {
+          viewAnswer.innerHTML = `${correctAnswer}`;
+          viewAnswer.style.display = 'block';
+        });
+
+        // Enable the next button when an answer is selected
+        nextBtn.classList.remove('disabled');
       });
     });
+  }
+  
+  // Add event listener to the "Next" button only once
+  nextBtn.addEventListener('click', () => {
+    if (nextBtn.classList.contains('disabled')) {
+      disabledNextBtnWarning.style.display = 'block'; // Show warning if the button is still disabled
+    } else {
+      currentIndex++;
+      displayQuestion();
+      hideElements(); // Reset elements when moving to the next question
+    }
   });
 }
 
+function hideElements() {
+  viewAnswerBtn.style.display = 'none';
+  viewAnswer.style.display = 'none';
+  disabledNextBtnWarning.style.display = 'none';
+}
 
-async function getQuestions(){
-  try{
+async function getQuestions() {
+  try {
     const response = await fetch("https://opentdb.com/api.php?amount=10");
     const data = await response.json();
-    //const questionData = data.results[0];
-    const questionData = data.results;
-    //console.log(questionData);
-    //console.log(questionData.length);
-    //displayFirstQuestion(questionData);
-    
-    if(!response.ok){
+    if (!response.ok) {
       throw new Error("Could not find resource!");
     }
-    return questionData;
-  }
-  catch(err){
+    return data.results;
+  } catch (err) {
     console.error(err);
   }
 }
-
