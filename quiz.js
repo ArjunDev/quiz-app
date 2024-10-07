@@ -68,11 +68,9 @@ async function handleQuestionData() {
         }
 
         // Disable clicks for the other choices
-        choices.forEach((otherChoice, otherIndex) => {
-          if (index !== otherIndex) {
-            otherChoice.style.pointerEvents = 'none'; // Disable click
-            otherChoice.style.opacity = '0.5'; // Visually appear disabled
-          }
+        choices.forEach((item) => {
+            item.style.pointerEvents = 'none'; // Disable click
+            item.style.opacity = '0.5'; // Visually appear disabled
         });
 
         viewAnswerBtn.addEventListener('click', () => {
