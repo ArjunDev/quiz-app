@@ -42,7 +42,7 @@ async function handleQuestionData() {
       incorrectAnswers.splice(Math.floor(Math.random() * (incorrectAnswers.length + 1)), 0, correctAnswer);
 
       // Display the question and category
-      question.innerHTML = `${questionData}`;
+      question.innerHTML = `Q${currentIndex + 1}: ${questionData}`;
       category.innerHTML = `<span>Category:</span> <span>${categoryData}</span>`;
       choiceContainer.innerHTML = `${incorrectAnswers.map((item) => `<li class="choice">${item}</li>`).join(" ")}`;
       
@@ -70,7 +70,7 @@ async function handleQuestionData() {
         // Disable clicks for the other choices
         choices.forEach((item) => {
             item.style.pointerEvents = 'none'; // Disable click
-            item.style.opacity = '0.5'; // Visually appear disabled
+            item.style.opacity = '0.7'; // Visually appear disabled
         });
 
         viewAnswerBtn.addEventListener('click', () => {
@@ -80,6 +80,7 @@ async function handleQuestionData() {
 
         // Enable the next button when an answer is selected
         nextBtn.classList.remove('disabled');
+        disabledNextBtnWarning.style.display = 'none';
       });
     });
   }
