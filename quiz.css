@@ -87,7 +87,6 @@ span{
 }
 .choice-container li:active{
   transform: scale(0.95);
-  transition: 0.2s ease-in-out;
 }
 
 .choice.correct {
