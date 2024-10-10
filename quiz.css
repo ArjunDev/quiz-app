@@ -81,10 +81,6 @@ span{
   cursor: pointer;
   background-color: rgba(255, 255, 255, 0.8);
 }
-.choice-container li:hover{
-  background-color: rgba(255, 255, 255, 0.6);
-  transition: 0.15s ease-in-out;
-}
 .choice-container li:active{
   transform: scale(0.95);
 }
