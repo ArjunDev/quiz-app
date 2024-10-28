@@ -1,17 +1,20 @@
 const container = document.querySelector('.container');
+const welcomeContainer = document.querySelector('.welcome-container');
 const question = document.querySelector('.question');
 const category = document.querySelector('.category');
 const choiceContainer = document.querySelector('.choice-container');
 const nextBtn = document.querySelector('.next-btn');
 const viewAnswerBtn = document.querySelector('.view-answer-btn');
-const finishQuizBtn = document.querySelector('.finish-quiz-btn');
 const viewAnswer = document.querySelector('.view-answer');
+const finishQuizBtn = document.querySelector('.finish-quiz-btn');
 const disabledNextBtnWarning = document.querySelector('.disabledNextBtn-warning');
 
 let rightAnswerCounter = [];
 let currentIndex = 0;
 
-handleQuestionData();
+displayWelcomeCard();
+
+//handleQuestionData();
 
 finishQuizBtn.addEventListener('click', () => {
   container.innerHTML = `<h1> Congrats!</br> you answered <span>${rightAnswerCounter.length}/10</span> correctly.</h1>
@@ -26,8 +29,8 @@ function playAgain() {
   });
 }
 
-async function handleQuestionData() {
-  const questionsArray = await getQuestions();
+async function handleQuestionData(qcategory,difficulty,type) {
+  const questionsArray = await getQuestions(qcategory,difficulty,type);
   displayQuestion();
 
   function displayQuestion() {
@@ -53,7 +56,6 @@ async function handleQuestionData() {
       checkCorrectAnswer(correctAnswer);
     }
   }
-
   function checkCorrectAnswer(correctAnswer) {
     const choices = document.querySelectorAll('.choice');
     choices.forEach((item, index) => {
@@ -66,7 +68,6 @@ async function handleQuestionData() {
           item.classList.add('wrong');
           viewAnswerBtn.style.display = 'block';
         }
-
         // Disable clicks for the other choices
         choices.forEach((item) => {
             item.style.pointerEvents = 'none'; // Disable click
@@ -84,7 +85,6 @@ async function handleQuestionData() {
       });
     });
   }
-  
   // Add event listener to the "Next" button only once
   nextBtn.addEventListener('click', () => {
     if (nextBtn.classList.contains('disabled')) {
@@ -97,18 +97,40 @@ async function handleQuestionData() {
   });
 }
 
+function displayWelcomeCard(){
+  const startQuizBtn = document.querySelector('.startquiz-btn');
+  startQuizBtn.addEventListener('click', () => {
+    welcomeContainer.classList.remove('welcome-container');
+    
+    container.style.display = "flex";
+    const qcategory = document.getElementById('category').value;
+    const difficulty = document.getElementById('difficulty').value;
+    const type = document.getElementById('type').value;
+    //console.log(questionCategory);
+    handleQuestionData(qcategory,difficulty,type);
+
+    welcomeContainer.style.display = "none";
+    //console.log("quiz started")
+  });
+}
+
 function hideElements() {
   viewAnswerBtn.style.display = 'none';
   viewAnswer.style.display = 'none';
   disabledNextBtnWarning.style.display = 'none';
 }
 
-async function getQuestions() {
+async function getQuestions(qcategory,difficulty,type) {
   try {
-    const response = await fetch("https://opentdb.com/api.php?amount=10");
+    //console.log("getting questions!")
+    //console.log(questionCategory);
+    const response = await fetch(`https://opentdb.com/api.php?amount=10&category=${qcategory}&difficulty=${difficulty}&type=${type}`);
+    //const response = await fetch("https://opentdb.com/api.php?amount=10");
+    
     const data = await response.json();
     if (!response.ok) {
-      throw new Error("Could not find resource!");
+      alert("Sorry! Error occured while fetching the questions. Please refresh the page.")
+      throw new Error("Could not find resource!"); 
     }
     return data.results;
   } catch (err) {

@@ -7,7 +7,45 @@
   <title>Quiz-App</title>
 </head>
 <body>
-  <div class="container">
+  <div class="welcome-container">
+    <h2>Welcome to Trivia Quiz App</h2>
+    <div class="category-selection">
+      <div>
+        <label for="category">Select a category :</label>
+        <select id="category" name="category">
+          <option value="">Any Category</option>
+          <option value="9">General Knowledge</option>
+          <option value="11">Entertainment: Film</option>
+          <option value="18">Science: Computers</option>
+          <option value="20">Mythology</option>
+          <option value="21">Sports</option>
+          <option value="22">Geography</option>
+          <option value="23">History</option>
+          <option value="26">Celebrities</option>
+          <option value="27">Animals</option>
+        </select>
+      </div>
+      <div>
+        <label for="difficulty">Select a difficulty :</label>
+        <select id="difficulty" name="difficulty">
+          <option value="">Any Difficulty</option>
+          <option value="easy">Easy</option>
+          <option value="medium">Medium</option>
+          <option value="hard">Hard</option>
+        </select>
+      </div>
+      <div>
+        <label for="type">Select a type :</label>
+        <select id="type" name="type">
+          <option value="">Any Type</option>
+          <option value="multiple">Multiple choice</option>
+          <option value="boolean">True / False</option>
+        </select>
+      </div>
+    </div>
+    <button class="startquiz-btn">Start quiz</button>
+  </div>
+  <div class="container" style="display:none">
     <h2 class="question"></h2>
     <p class="category"></p>
     <ul class="choice-container">
@@ -22,7 +60,7 @@
       <button class="finish-quiz-btn">Finish Quiz</button>
     </div>
     <p class="view-answer"></p>
-    <p class="disabledNextBtn-warning"> Must select an answer before proceed</p>
+    <p class="disabledNextBtn-warning"> Choose an answer before proceed</p>
     
   </div>
   

@@ -1,7 +1,6 @@
 :root{
   --button-color: #C0EBA6;
 }
-
 * {
   box-sizing: border-box;
   margin: 0;
@@ -15,6 +14,31 @@ body {
   width: 100vw;
   height: 100vh;
 }
+.welcome-container{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  row-gap: 2rem;
+  width: 400px;
+  height: 400px;
+  background-color: #72BF78;
+  border-radius: 1rem;
+}
+.welcome-container h2{
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+.welcome-container div{
+  background-color: rgba(255, 255, 255, 0.9);
+  padding: 0.75rem;
+  border-radius: 0.75rem;
+}
+.category-selection label{
+  font-size: large;
+  font-weight: bold;
+}
 .container {
   display: flex;
   flex-direction: column;
@@ -22,7 +46,6 @@ body {
   align-items: center;
   width: 400px;
   height: 600px;
-  margin: 1rem;
   background-color: #387478;
   border-radius: 1rem;
 }
@@ -44,7 +67,7 @@ span{
 
 }
 .question{
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(231, 230, 230, 0.8);
   margin: 0.5rem;
   margin-bottom: 1rem;
   padding: 0.5rem;
@@ -84,12 +107,11 @@ span{
 .choice-container li:active{
   transform: scale(0.95);
 }
-
 .choice.correct {
   background-color: rgb(4, 248, 4);
 }
 .choice.wrong {
-  background-color: rgb(255, 0, 0);
+  background-color: rgba(232, 5, 5, 0.75);
 }
 .view-answer {
   display: none;
@@ -133,8 +155,22 @@ span{
   font-size: medium;
   border-radius: 1rem;
   cursor: pointer;
+  box-shadow: 2px 2px 2px black;
   background-color: var(--button-color);
   transition: background-color 0.3s ease;
+}
+.startquiz-btn{
+  font-size: medium;
+  font-weight: bold;
+  padding: 0.75rem;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  background-color: #D3EE98;
+  box-shadow: 2px 2px 2px black;
+}
+.startquiz-btn:hover{
+  background-color: #bacf8c;
 }
 .view-answer-btn,
 .finish-quiz-btn {
@@ -148,6 +184,7 @@ span{
   font-size: medium;
   border-radius: 1rem;
   cursor: pointer;
+  box-shadow: 2px 2px 2px black;
   background-color: var(--button-color);
 }
 #click-me-btn{
@@ -160,6 +197,7 @@ span{
   border-radius: 1rem;
   margin-left: 1rem;
   cursor: pointer;
+  box-shadow: 2px 2px 2px black;
   background-color: var(--button-color);
 }
 .finish-msg{
@@ -173,7 +211,8 @@ span{
 .view-answer-btn:active, 
 .next-btn:active,
 .finish-quiz-btn:active,
-#click-me-btn:active {
+#click-me-btn:active,
+.startquiz-btn:active {
   transform: scale(0.9);
   background-color: #c0eba6d1;
 }
