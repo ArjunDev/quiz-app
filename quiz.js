@@ -1,5 +1,6 @@
 const container = document.querySelector('.container');
 const welcomeContainer = document.querySelector('.welcome-container');
+const finishContainer = document.querySelector('.finish-container');
 const question = document.querySelector('.question');
 const category = document.querySelector('.category');
 const choiceContainer = document.querySelector('.choice-container');
@@ -17,7 +18,9 @@ displayWelcomeCard();
 //handleQuestionData();
 
 finishQuizBtn.addEventListener('click', () => {
-  container.innerHTML = `<h1> Congrats!</br> you answered <span>${rightAnswerCounter.length}/10</span> correctly.</h1>
+  container.style.display = 'none';
+  finishContainer.style.display = 'flex';
+  finishContainer.innerHTML = `<h1>Congrats!</br> you answered <span>${rightAnswerCounter.length}/10</span> correctly.</h1>
   <h3 class="finish-msg">Wanna Play again? <button id="click-me-btn">Click me</button></h3>`;
   playAgain();
 });
